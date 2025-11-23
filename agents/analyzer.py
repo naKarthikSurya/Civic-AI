@@ -1,0 +1,122 @@
+import google.generativeai as genai
+import os
+import json
+from dtos import AnalysisResult, SearchResult
+from typing import List
+import logging
+
+logger = logging.getLogger(__name__)
+
+class AnalyzerAgent:
+    def __init__(self):
+        self.api_key = os.getenv("GOOGLE_API_KEY")
+        if self.api_key:
+            genai.configure(api_key=self.api_key)
+            self.model = genai.GenerativeModel('gemini-2.5-flash')
+
+    def analyze_query(self, query: str) -> AnalysisResult:
+        """
+        Step 1: Analyze user query to determine intent and generate search queries.
+        """
+        prompt = f"""<system_role>
+You are an expert RTI (Right to Information) Analyst for India. Your goal is to understand the user's need and generate precise search queries to find the right information.
+</system_role>
+
+<user_query>
+{query}
+</user_query>
+
+<task>
+1. **Analyze Intent**: Determine if the user wants "info" (advice), "draft_rti" (application drafting), or needs to "clarify" (vague query).
+2. **Generate Search Queries**: If intent is "info" or "draft_rti", create 3 optimized Google Search queries.
+</task>
+
+<rules_for_search_queries>
+- **Keywords Only**: Do NOT use natural language questions. Use search-optimized keywords.
+- **Operators**: Use `site:`, `""` (quotes for exact phrases), and `OR` where appropriate.
+- **Bad Example**: "how do I get my internal marks from college"
+- **Good Example**: "engineering college internal marks disclosure RTI rules"
+- **Mandatory**: One query MUST be `site:indiankanoon.org [keywords]` to find judgments.
+</rules_for_search_queries>
+
+<output_format>
+Respond with valid JSON only:
+{{
+    "intent": "info|draft_rti|clarify",
+    "search_queries": [
+        "query 1 (General Rules)",
+        "query 2 (Specific Problem)",
+        "site:indiankanoon.org query 3 (Judgments)"
+    ],
+    "priority_domains": ["indiankanoon.org"],
+    "reasoning": "Step-by-step thinking: 1. User wants... 2. Key terms are... 3. Intent is..."
+}}
+</output_format>"""
+        try:
+            response = self.model.generate_content(prompt, generation_config={"response_mime_type": "application/json"})
+            data = json.loads(response.text)
+            return AnalysisResult(
+                intent=data.get("intent", "info"),
+                search_queries=data.get("search_queries", [query]),
+                priority_domains=data.get("priority_domains", []),
+                key_facts=[],
+                relevant_judgments=[],
+                reasoning=data.get("reasoning", "")
+            )
+        except Exception as e:
+            logger.error(f"Query analysis failed: {e}")
+            return AnalysisResult(intent="info", search_queries=[query], key_facts=[], relevant_judgments=[], reasoning="Error in analysis")
+
+    def analyze_results(self, current_analysis: AnalysisResult, search_context: str, search_results: List[SearchResult]) -> AnalysisResult:
+        """
+        Step 2: Analyze search results to extract key facts and relevant judgments.
+        STRICT RULE: Do not assume or predict. Use ONLY the provided search_context.
+        """
+        prompt = f"""You are an expert RTI Analyst extracting information from search results.
+
+<search_context>
+{search_context}
+</search_context>
+
+<task>
+Carefully analyze the search context above and extract:
+
+1. KEY FACTS
+   - Extract factual information relevant to RTI applications
+   - Include specific rules, procedures, or requirements mentioned
+   - Include relevant case law or CIC decisions if present
+   - CRITICAL: Only extract facts explicitly stated in the search context
+   - Do NOT invent, assume, or hallucinate information
+
+2. RELEVANT JUDGMENTS
+   - Note any court cases or CIC decisions mentioned
+   - Include case names and key rulings if available
+   
+STRICT RULES:
+- Base your analysis ONLY on the provided search context
+- If information is not in the context, do not include it
+- Be specific and cite sources when possible
+</task>
+
+<output_format>
+Respond with ONLY valid JSON:
+{{
+    "key_facts": ["fact 1", "fact 2", "fact 3"],
+    "relevant_judgments_indices": [0, 2]
+}}
+</output_format>"""
+        try:
+            response = self.model.generate_content(prompt, generation_config={"response_mime_type": "application/json"})
+            data = json.loads(response.text)
+            
+            # Update the analysis object
+            current_analysis.key_facts = data.get("key_facts", [])
+            # For simplicity, we just pass all search results as relevant for now, 
+            # or we could filter based on the indices if the LLM was perfect.
+            # Let's just pass the top results that were actually fetched.
+            current_analysis.relevant_judgments = search_results 
+            
+            return current_analysis
+        except Exception as e:
+            logger.error(f"Result analysis failed: {e}")
+            return current_analysis

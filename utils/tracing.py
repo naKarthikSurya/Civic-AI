@@ -24,15 +24,22 @@ class Tracer:
         """
         Log a structured trace event.
         """
+        def json_serializer(obj):
+            if hasattr(obj, 'model_dump'):
+                return obj.model_dump()
+            if hasattr(obj, 'dict'): # For older Pydantic
+                return obj.dict()
+            return str(obj)
+
         event = {
             "type": "agent_trace",
             "agent": agent_name,
             "action": action,
             "inputs": inputs,
-            "outputs": str(outputs)[:500] + "..." if outputs and len(str(outputs)) > 500 else outputs, # Truncate long outputs
+            "outputs": outputs, # Let serializer handle it
             "duration_ms": round(duration * 1000, 2)
         }
-        logger.info(json.dumps(event))
+        logger.info(json.dumps(event, default=json_serializer))
 
 def trace_span(agent_name: str, action_name: str):
     """

@@ -1,11 +1,13 @@
 from typing import Dict, List, Optional
 import uuid
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from datetime import datetime
 
 class SessionData(BaseModel):
     session_id: str
     history: List[Dict[str, str]] = []
     metadata: Dict[str, str] = {}
+    created_at: datetime = Field(default_factory=datetime.now)
 
 class SessionManager:
     """

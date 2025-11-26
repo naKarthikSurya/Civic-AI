@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = FastAPI(title="RTI Agent API")
+app = FastAPI(title="CivicAI API")
 
 # Initialize Agents & Session Manager
 orchestrator = Orchestrator()
@@ -49,6 +49,14 @@ async def chat_endpoint(request: ChatRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/chat/{session_id}/history")
+async def get_chat_history(session_id: str):
+    """Returns the chat history for a specific session."""
+    session = session_manager.get_session(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    return session.history
+
 # Page Routes
 @app.get("/")
 async def read_root(request: Request):
@@ -62,10 +70,3 @@ async def read_chat_page(request: Request):
 async def read_about(request: Request):
     return templates.TemplateResponse("about.html", {"request": request})
 
-@app.get("/faq")
-async def read_faq(request: Request):
-    return templates.TemplateResponse("faq.html", {"request": request})
-
-@app.get("/contact")
-async def read_contact(request: Request):
-    return templates.TemplateResponse("contact.html", {"request": request})

@@ -13,19 +13,19 @@ class ContentTool(AgentTool):
     def description(self) -> str:
         return "Fetches and extracts the main text content from a URL."
 
-    def execute(self, url: str) -> ToolResult:
+    def execute(self, input: str) -> ToolResult:
         """
         Fetches and extracts the main text content from a URL using Trafilatura.
         """
         try:
-            downloaded = trafilatura.fetch_url(url)
+            downloaded = trafilatura.fetch_url(input)
             if downloaded:
                 text = trafilatura.extract(downloaded)
                 if text:
                     return ToolResult(content=text)
             return ToolResult(content="")
         except Exception as e:
-            logger.error(f"Failed to fetch content from {url}: {e}")
+            logger.error(f"Failed to fetch content from {input}: {e}")
             return ToolResult(content="", error=str(e))
 
 # Backward compatibility wrapper

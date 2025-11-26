@@ -1,5 +1,5 @@
 from duckduckgo_search import DDGS
-from typing import List, Dict, Any
+from typing import List, Dict
 import logging
 from tools.base import AgentTool, ToolResult
 

@@ -55,6 +55,6 @@ def trace_span(agent_name: str, action_name: str):
             except Exception as e:
                 duration = time.time() - start_time
                 Tracer.trace_agent(agent_name, action_name, inputs, {"error": str(e)}, duration)
-                raise e
+                raise
         return wrapper
     return decorator

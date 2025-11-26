@@ -24,6 +24,8 @@ templates = Jinja2Templates(directory="templates")
 async def chat_endpoint(request: ChatRequest):
     if not request.message:
         raise HTTPException(status_code=400, detail="Message cannot be empty")
+    if len(request.message) > 5000:
+        raise HTTPException(status_code=400, detail="Message too long")
     
     session_id = request.session_id
     

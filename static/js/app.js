@@ -103,16 +103,43 @@ async function sendMessage() {
             if (data.rti_draft) {
                 const draftDiv = document.createElement('div');
                 draftDiv.className = 'flex flex-col items-center justify-center pt-4 text-center space-y-6';
-                draftDiv.innerHTML = `
-                    <div class="bg-white dark:bg-slate-700 rounded-lg p-4 max-w-lg shadow-sm text-left w-full">
-                        <h3 class="font-bold mb-2">RTI Draft Generated</h3>
-                        <pre class="whitespace-pre-wrap text-xs bg-slate-100 dark:bg-slate-800 p-2 rounded">${data.rti_draft}</pre>
-                    </div>
-                    <button onclick="downloadDraft(this)" data-draft="${encodeURIComponent(data.rti_draft)}" class="bg-primary hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors shadow-lg cursor-pointer">
-                        <span class="material-icons">download</span>
-                        Download Draft
-                    </button>
-                `;
+
+                // Create the container for the draft
+                const draftContainer = document.createElement('div');
+                draftContainer.className = 'bg-white dark:bg-slate-700 rounded-lg p-4 max-w-lg shadow-sm text-left w-full';
+
+                // Title
+                const draftTitle = document.createElement('h3');
+                draftTitle.className = 'font-bold mb-2';
+                draftTitle.textContent = 'RTI Draft Generated';
+                draftContainer.appendChild(draftTitle);
+
+                // Draft content
+                const draftPre = document.createElement('pre');
+                draftPre.className = 'whitespace-pre-wrap text-xs bg-slate-100 dark:bg-slate-800 p-2 rounded';
+                draftPre.textContent = data.rti_draft;
+                draftContainer.appendChild(draftPre);
+
+                draftDiv.appendChild(draftContainer);
+
+                // Create the download button
+                const downloadBtn = document.createElement('button');
+                downloadBtn.className = 'bg-primary hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full inline-flex items-center gap-2 transition-colors shadow-lg cursor-pointer';
+                downloadBtn.setAttribute('data-draft', encodeURIComponent(data.rti_draft));
+                downloadBtn.type = 'button';
+                downloadBtn.addEventListener('click', function() { window.downloadDraft(this); });
+
+                // Icon
+                const iconSpan = document.createElement('span');
+                iconSpan.className = 'material-icons';
+                iconSpan.textContent = 'download';
+                downloadBtn.appendChild(iconSpan);
+
+                // Button text
+                const btnText = document.createTextNode(' Download Draft');
+                downloadBtn.appendChild(btnText);
+
+                draftDiv.appendChild(downloadBtn);
                 messagesContainer.appendChild(draftDiv);
             }
         } else {

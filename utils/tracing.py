@@ -1,7 +1,7 @@
 import logging
 import json
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 from functools import wraps
 
 # Configure basic logging

@@ -1,6 +1,4 @@
 import requests
-import time
-
 BASE_URL = "http://127.0.0.1:8000"
 
 def print_separator(title):

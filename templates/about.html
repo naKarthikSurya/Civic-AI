@@ -1,32 +1,93 @@
 {% extends "base.html" %}
 
-{% block title %}About - RTI Assist AI{% endblock %}
+{% block title %}About - CivicAI{% endblock %}
 
 {% block content %}
-<section class="relative py-24 sm:py-32 flex items-center">
-    <div
-        class="absolute inset-0 bg-gradient-to-br from-blue-100 to-green-100 dark:from-blue-900/50 dark:to-green-900/50">
-    </div>
+<section class="relative py-24 sm:py-32 flex items-center bg-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="max-w-3xl mx-auto text-center">
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
-                About RTI Assist AI
-            </h1>
-            <p class="mt-6 text-lg text-gray-700 dark:text-gray-300">
-                Our mission is to empower every Indian citizen by simplifying the Right to Information (RTI) process. We
-                provide AI-powered tools to help you understand the RTI Act and draft effective applications, making
-                government transparency more accessible.
-            </p>
-            <div
-                class="mt-10 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-300 dark:border-yellow-700 p-6 rounded-lg text-left flex items-start space-x-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight mb-6">
+                    About CivicAI
+                </h1>
+                <p class="text-xl text-gray-600 leading-relaxed">
+                    Empowering Indian citizens with AI-driven legal insights to foster transparency and accountability.
+                </p>
+            </div>
+
+            <!-- Mission Section -->
+            <div class="grid md:grid-cols-2 gap-12 items-center mb-20">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Mission</h2>
+                    <p class="text-gray-600 mb-4">
+                        The Right to Information (RTI) Act is a powerful tool for democracy, but navigating its
+                        legalities can be daunting. Our mission is to bridge this gap by making expert-level legal
+                        advice accessible to everyone.
+                    </p>
+                    <p class="text-gray-600">
+                        We believe that every citizen deserves to know their rights and how to exercise them effectively
+                        without needing expensive legal counsel for basic queries.
+                    </p>
+                </div>
+                <div class="bg-blue-50 p-8 rounded-2xl">
+                    <h3 class="text-xl font-semibold text-primary mb-4">Why It Matters</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="material-icons text-green-500 mr-2">check_circle</span>
+                            <span>Combats corruption and promotes transparency.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="material-icons text-green-500 mr-2">check_circle</span>
+                            <span>Empowers citizens to hold officials accountable.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="material-icons text-green-500 mr-2">check_circle</span>
+                            <span>Ensures efficient functioning of public services.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Technology Section -->
+            <div class="mb-20">
+                <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Powered by Advanced AI</h2>
+                <div class="bg-slate-50 rounded-2xl p-8 md:p-12">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <span class="material-icons text-primary text-3xl">psychology</span>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Intelligent Analysis</h3>
+                            <p class="text-gray-600">
+                                Our AI agent understands natural language queries and identifies the core legal issue,
+                                just like a human lawyer would.
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                                <span class="material-icons text-purple-600 text-3xl">search</span>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Legal Database Search</h3>
+                            <p class="text-gray-600">
+                                We actively search through thousands of judgments and legal texts (via Indian Kanoon) to
+                                find precedents that strengthen your case.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="bg-yellow-50 border border-yellow-200 p-6 rounded-lg flex items-start space-x-4">
                 <div class="flex-shrink-0">
-                    <span class="material-icons text-yellow-600 dark:text-yellow-400 text-3xl">warning</span>
+                    <span class="material-icons text-yellow-600 text-2xl">warning</span>
                 </div>
                 <div>
-                    <h2 class="font-semibold text-yellow-900 dark:text-yellow-200">Disclaimer</h2>
-                    <p class="text-yellow-800 dark:text-yellow-300 mt-1">
-                        RTI Assist AI is an informational tool and does not provide legal advice. It is not a substitute
-                        for a qualified legal professional.
+                    <h2 class="font-semibold text-yellow-900">Legal Disclaimer</h2>
+                    <p class="text-yellow-800 mt-1 text-sm">
+                        CivicAI is an informational tool designed to assist with legal research and drafting. It does
+                        not provide binding legal advice and is not a substitute for a qualified attorney. Always
+                        consult a legal professional for critical matters.
                     </p>
                 </div>
             </div>

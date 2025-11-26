@@ -4,6 +4,7 @@ import json
 from dtos import AnalysisResult, SearchResult
 from typing import List
 import logging
+from utils.tracing import trace_span
 
 logger = logging.getLogger(__name__)
 
@@ -14,42 +15,53 @@ class AnalyzerAgent:
             genai.configure(api_key=self.api_key)
             self.model = genai.GenerativeModel('gemini-2.5-flash')
 
-    def analyze_query(self, query: str) -> AnalysisResult:
+    @trace_span("AnalyzerAgent", "analyze_query")
+    def analyze_query(self, query: str, history: list[dict] = []) -> AnalysisResult:
         """
         Step 1: Analyze user query to determine intent and generate search queries.
         """
+        history_text = "\n".join([f"{msg['role'].upper()}: {msg['content']}" for msg in history[-5:]]) # Last 5 messages
+        
         prompt = f"""<system_role>
 You are an expert RTI (Right to Information) Analyst for India. Your goal is to understand the user's need and generate precise search queries to find the right information.
 </system_role>
+
+<chat_history>
+{history_text}
+</chat_history>
 
 <user_query>
 {query}
 </user_query>
 
 <task>
-1. **Analyze Intent**: Determine if the user wants "info" (advice), "draft_rti" (application drafting), or needs to "clarify" (vague query).
-2. **Generate Search Queries**: If intent is "info" or "draft_rti", create 3 optimized Google Search queries.
+1. **Analyze Intent**: Determine if the user wants "info" (general queries), "legal_advice" (seeking solutions/judgments for a problem), or needs to "clarify" (vague query).
+   - **"legal_advice"**: If the user describes a specific problem (e.g., "Police refused FIR", "Marks not given") and seeks a solution or remedy.
+   - **"clarify"**: If the query is too vague to give specific advice.
+   - **"info"**: General questions about RTI rules/fees.
+
+2. **Generate Search Queries**:
+   - If intent is "legal_advice", you MUST generate queries for **Case Law** and **Judgments**.
+   - Use `site:indiankanoon.org` aggressively.
 </task>
 
 <rules_for_search_queries>
-- **Keywords Only**: Do NOT use natural language questions. Use search-optimized keywords.
-- **Operators**: Use `site:`, `""` (quotes for exact phrases), and `OR` where appropriate.
-- **Bad Example**: "how do I get my internal marks from college"
-- **Good Example**: "engineering college internal marks disclosure RTI rules"
-- **Mandatory**: One query MUST be `site:indiankanoon.org [keywords]` to find judgments.
+- **Keywords Only**: Do NOT use natural language questions.
+- **Operators**: Use `site:`, `""`, `OR`.
+- **Mandatory**: If intent is "legal_advice", at least 2 queries MUST be `site:indiankanoon.org [keywords]`.
 </rules_for_search_queries>
 
 <output_format>
 Respond with valid JSON only:
 {{
-    "intent": "info|draft_rti|clarify",
+    "intent": "info|legal_advice|clarify",
     "search_queries": [
-        "query 1 (General Rules)",
-        "query 2 (Specific Problem)",
-        "site:indiankanoon.org query 3 (Judgments)"
+        "site:indiankanoon.org [keywords] (Judgment 1)",
+        "site:indiankanoon.org [keywords] (Judgment 2)",
+        "[keywords] RTI rules"
     ],
     "priority_domains": ["indiankanoon.org"],
-    "reasoning": "Step-by-step thinking: 1. User wants... 2. Key terms are... 3. Intent is..."
+    "reasoning": "..."
 }}
 </output_format>"""
         try:
@@ -58,7 +70,7 @@ Respond with valid JSON only:
             return AnalysisResult(
                 intent=data.get("intent", "info"),
                 search_queries=data.get("search_queries", [query]),
-                priority_domains=data.get("priority_domains", []),
+                priority_domains=data.get("priority_domains", ["indiankanoon.org"]),
                 key_facts=[],
                 relevant_judgments=[],
                 reasoning=data.get("reasoning", "")
@@ -67,6 +79,7 @@ Respond with valid JSON only:
             logger.error(f"Query analysis failed: {e}")
             return AnalysisResult(intent="info", search_queries=[query], key_facts=[], relevant_judgments=[], reasoning="Error in analysis")
 
+    @trace_span("AnalyzerAgent", "analyze_results")
     def analyze_results(self, current_analysis: AnalysisResult, search_context: str, search_results: List[SearchResult]) -> AnalysisResult:
         """
         Step 2: Analyze search results to extract key facts and relevant judgments.

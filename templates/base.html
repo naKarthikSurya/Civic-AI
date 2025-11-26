@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{% block title %}RTI Assist AI{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3B82F6", // blue-500
+                        "background-light": "#FFFFFF",
+                        "background-dark": "#111827", // gray-900
+                    },
+                    fontFamily: {
+                        display: ["Poppins", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.75rem", // 12px
+                    },
+                },
+            },
+        };
+    </script>
+    {% block head %}{% endblock %}
+</head>
+
+<body
+    class="font-display bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200 flex flex-col min-h-screen">
+    <header
+        class="bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0">
+                    <a class="flex items-center space-x-2" href="/">
+                        <span class="material-icons text-primary text-4xl">description</span>
+                        <span class="text-xl font-bold text-gray-900 dark:text-white">RTI Assist AI</span>
+                    </a>
+                </div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a class="{% if request.url.path == '/' %}text-primary font-semibold border-b-2 border-primary pb-1{% else %}text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors{% endif %}"
+                        href="/">Home</a>
+                    <a class="{% if request.url.path == '/about' %}text-primary font-semibold border-b-2 border-primary pb-1{% else %}text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors{% endif %}"
+                        href="/about">About</a>
+                    <a class="{% if request.url.path == '/faq' %}text-primary font-semibold border-b-2 border-primary pb-1{% else %}text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors{% endif %}"
+                        href="/faq">FAQs</a>
+                    <a class="{% if request.url.path == '/contact' %}text-primary font-semibold border-b-2 border-primary pb-1{% else %}text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors{% endif %}"
+                        href="/contact">Contact</a>
+                </nav>
+                <button class="md:hidden text-gray-600 dark:text-gray-300">
+                    <span class="material-icons">menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-background-light dark:bg-background-dark border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div
+                class="flex flex-col sm:flex-row justify-between items-center text-sm text-gray-500 dark:text-gray-400">
+                <div class="flex space-x-4 mb-4 sm:mb-0">
+                    <a class="hover:text-primary" href="#">Privacy Policy</a>
+                    <a class="hover:text-primary" href="#">Terms of Service</a>
+                </div>
+                <p>© 2024 RTI Assist AI. Made for Indian Citizens.</p>
+            </div>
+        </div>
+    </footer>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

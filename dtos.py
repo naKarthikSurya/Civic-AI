@@ -8,7 +8,7 @@ class SearchResult(BaseModel):
     source: str = "web"
 
 class AnalysisResult(BaseModel):
-    intent: Literal["info", "draft_rti", "clarify"] = Field(description="User intent: 'info', 'draft_rti', or 'clarify' if more details are needed.")
+    intent: Literal["info", "legal_advice", "clarify"] = Field(description="User intent: 'info', 'legal_advice', or 'clarify' if more details are needed.")
     search_queries: List[str] = Field(description="List of optimized search queries.")
     key_facts: List[str] = Field(description="Extracted key facts from search results.")
     relevant_judgments: List[SearchResult] = Field(description="List of relevant judgments found.")
@@ -21,5 +21,5 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     reply: str
-    rti_draft: Optional[str] = None
     analysis: Optional[AnalysisResult] = None
+    session_id: Optional[str] = None

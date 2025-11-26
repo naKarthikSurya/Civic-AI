@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}FAQs - RTI Assist AI{% endblock %}
+
+{% block content %}
+<div class="py-16 sm:py-24">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-12 text-center">
+                Frequently Asked Questions</h1>
+
+            <div class="space-y-8">
+                <div class="bg-slate-50 dark:bg-slate-800 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">What is RTI?</h3>
+                    <p class="text-gray-600 dark:text-gray-300">RTI stands for Right to Information. It is an act of the
+                        Parliament of India which sets out the rules and procedures regarding citizens' right to
+                        information.</p>
+                </div>
+
+                <div class="bg-slate-50 dark:bg-slate-800 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">How can this AI help me?</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Our AI assistant can help you understand if your query
+                        is valid under RTI, find relevant past judgments, and draft a formal application for you to
+                        submit.</p>
+                </div>
+
+                <div class="bg-slate-50 dark:bg-slate-800 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Is the generated draft legally
+                        binding?</h3>
+                    <p class="text-gray-600 dark:text-gray-300">No. The draft is a template based on your inputs. You
+                        should review it carefully and consult a legal expert if necessary before submission.</p>
+                </div>
+
+                <div class="bg-slate-50 dark:bg-slate-800 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Does this service file the RTI
+                        for me?</h3>
+                    <p class="text-gray-600 dark:text-gray-300">No, we only help you draft the application. You need to
+                        submit it either online (rtionline.gov.in) or via post to the respective Public Information
+                        Officer.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

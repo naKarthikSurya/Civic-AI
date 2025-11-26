@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Chat - RTI Assist AI{% endblock %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-col h-[calc(100vh-80px)]"> <!-- Adjust height to account for header -->
+    <div class="flex-1 overflow-y-auto relative" id="chat-container">
+        <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            <div
+                class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-blue-300/30 dark:bg-blue-900/30 rounded-full filter blur-3xl opacity-50">
+            </div>
+            <div
+                class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-green-300/30 dark:bg-green-900/30 rounded-full filter blur-3xl opacity-50">
+            </div>
+        </div>
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6" id="messages">
+            <!-- Initial Welcome Message -->
+            <div class="flex items-start gap-4 mb-6">
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                    <span class="material-icons text-blue-600 text-sm">smart_toy</span>
+                </div>
+                <div class="bg-white dark:bg-slate-700 rounded-2xl p-5 max-w-2xl shadow-sm border border-slate-100">
+                    <p class="text-slate-800 dark:text-slate-200 leading-relaxed">
+                        Hello! I am RTI Assist AI. I can help you draft your Right to Information (RTI) application. To
+                        get started, please describe the information you are seeking.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div
+        class="bg-background-light dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 p-4 sticky bottom-0 z-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+                class="flex items-center bg-white dark:bg-slate-800 rounded-full border border-slate-300 dark:border-slate-600 px-2 py-1 shadow-sm">
+                <input id="user-input"
+                    class="flex-1 bg-transparent border-none focus:ring-0 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 px-4 py-2"
+                    placeholder="Type your query here..." type="text" />
+                <button id="send-btn"
+                    class="bg-primary text-white rounded-full p-2 hover:bg-blue-600 transition-colors">
+                    <span class="material-icons">send</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='/js/app.js') }}"></script>
+{% endblock %}

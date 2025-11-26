@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}AI-powered RTI Assistant{% endblock %}
+
+{% block content %}
+<div
+  class="w-full bg-gradient-to-br from-blue-50 via-blue-100 to-green-100 dark:from-gray-900 dark:via-slate-800 dark:to-slate-900 py-24 sm:py-32 flex items-center justify-center min-h-[calc(100vh-80px)]">
+  <div class="container mx-auto px-6 text-center">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-white leading-tight tracking-tight">
+      Simplify Your Right to Information
+    </h1>
+    <p class="mt-6 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-300">
+      Our AI-powered assistant helps you navigate the RTI Act with clarity, from evaluating suitability to drafting
+      applications.
+    </p>
+    <div class="mt-10">
+      <a class="inline-flex items-center justify-center bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+        href="/chat">
+        Start Assistance
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

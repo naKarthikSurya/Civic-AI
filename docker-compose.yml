@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    environment:
+      - PORT=8080
+    # Loads environment variables from .env file if it exists
+    env_file:
+      - .env
+    # Use --reload for development to restart on code changes
+    command: uvicorn main:app --host 0.0.0.0 --port 8080 --reload

@@ -2,7 +2,6 @@ fastapi
 uvicorn
 duckduckgo_search
 google-generativeai
-ddgs
 trafilatura
 python-dotenv
 pydantic

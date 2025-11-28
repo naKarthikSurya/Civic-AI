@@ -1,8 +1,7 @@
 fastapi
 uvicorn
-duckduckgo_search
-google-generativeai
-trafilatura
 python-dotenv
 pydantic
 jinja2
+google-adk
+google-genai

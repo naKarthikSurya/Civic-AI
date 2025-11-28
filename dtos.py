@@ -23,3 +23,10 @@ class ChatResponse(BaseModel):
     reply: str
     analysis: Optional[AnalysisResult] = None
     session_id: Optional[str] = None
+    session_title: Optional[str] = None
+
+class ResearchReport(BaseModel):
+    query: str
+    key_facts: List[str]
+    relevant_judgments: List[SearchResult]
+    summary: str

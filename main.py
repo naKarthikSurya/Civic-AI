@@ -10,15 +10,27 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = FastAPI(title="CivicAI API")
+app = FastAPI(title="LegalAdviser-AI API")
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
-# Initialize Agents & Session Manager
+# Initialize Services
 orchestrator = Orchestrator()
 session_manager = SessionManager()
 
-# Mount Static Files
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+import asyncio
+
+# ... (existing imports)
+
+# Background Task for Session Cleanup
+async def run_cleanup_task():
+    while True:
+        await asyncio.sleep(3600) # Run every hour
+        session_manager.cleanup_sessions(max_age_hours=24)
+
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(run_cleanup_task())
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
@@ -28,23 +40,34 @@ async def chat_endpoint(request: ChatRequest):
         raise HTTPException(status_code=400, detail="Message too long")
     
     session_id = request.session_id
+    is_new_session = False
     
     # Validate or create session
     if not session_id or not session_manager.get_session(session_id):
         session_id = session_manager.create_session()
+        is_new_session = True
         
     try:
         # Get history
         history = session_manager.get_history(session_id)
         
+        # Generate Title if new session (simple heuristic: first 50 chars)
+        if is_new_session or len(history) == 0:
+            # Generate a short title from the query
+            title = " ".join(request.message.split()[:6])  # First 6 words
+            if len(title) > 40:
+                title = title[:37] + "..."
+            session_manager.update_title(session_id, title)
+        
         # Process query
-        response = orchestrator.process_query(request.message, history)
+        response = await orchestrator.process_query(request.message, history)
         
         # Update history
         session_manager.add_message(session_id, "user", request.message)
         session_manager.add_message(session_id, "model", response.reply)
         
         response.session_id = session_id
+        response.session_title = session_manager.get_session(session_id).title
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -57,6 +80,17 @@ async def get_chat_history(session_id: str):
         raise HTTPException(status_code=404, detail="Session not found")
     return session.history
 
+@app.get("/sessions/{session_id}")
+async def get_session_info(session_id: str):
+    """Returns session metadata (title)."""
+    session = session_manager.get_session(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    return {"session_id": session.session_id, "title": session.title}
+
+# Page Routes
+
+# Page Routes
 # Page Routes
 @app.get("/")
 async def read_root(request: Request):

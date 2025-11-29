@@ -71,29 +71,6 @@
                             I'm your AI Legal Assistant for Indian Laws. Ask me about the IPC, CrPC, BNS, or RTI Act.
                         </p>
                     </div>
-                    <!-- Suggestion Chips -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full max-w-2xl">
-                        <button
-                            class="suggestion-btn text-left p-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors text-sm text-gray-600">
-                            <span class="font-medium block text-gray-800 mb-1">RTI Application</span>
-                            How do I file an RTI for road repairs?
-                        </button>
-                        <button
-                            class="suggestion-btn text-left p-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors text-sm text-gray-600">
-                            <span class="font-medium block text-gray-800 mb-1">Consumer Rights</span>
-                            Bus conductor refused to give change.
-                        </button>
-                        <button
-                            class="suggestion-btn text-left p-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors text-sm text-gray-600">
-                            <span class="font-medium block text-gray-800 mb-1">Cyber Crime</span>
-                            Report online financial fraud.
-                        </button>
-                        <button
-                            class="suggestion-btn text-left p-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors text-sm text-gray-600">
-                            <span class="font-medium block text-gray-800 mb-1">Property Law</span>
-                            Documents needed for house registration.
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -102,23 +79,19 @@
         <div class="w-full bg-white p-4 pb-6 flex-shrink-0 z-20">
             <div class="max-w-3xl mx-auto relative">
                 <div
-                    class="relative flex items-end gap-2 bg-gray-50 border border-gray-200 rounded-3xl p-2 shadow-sm focus-within:ring-2 focus-within:ring-indigo-100 focus-within:border-indigo-300 transition-all">
-                    <!-- File Upload (Mock) -->
-                    <button
-                        class="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-200 transition-colors self-end mb-1">
-                        <span class="material-icons text-[20px]">add_circle_outline</span>
-                    </button>
+                    class="relative flex items-end gap-2 bg-gray-100 border border-gray-200 rounded-[2rem] p-3 shadow-sm focus-within:ring-2 focus-within:ring-indigo-100 focus-within:border-indigo-300 transition-all">
 
                     <textarea id="user-input" rows="1"
-                        class="w-full bg-transparent border-0 text-gray-900 text-base focus:ring-0 p-3 resize-none max-h-48 overflow-y-auto"
-                        placeholder="Message LegalAdviser-AI..." style="min-height: 44px;"></textarea>
+                        class="w-full bg-transparent border-0 text-gray-900 text-base focus:ring-0 focus:outline-none p-2 resize-none max-h-48 overflow-y-auto placeholder-gray-500"
+                        placeholder="Message LegalAdviser-AI..."
+                        style="min-height: 24px; max-height: 200px;"></textarea>
 
                     <button id="send-btn"
-                        class="p-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed self-end mb-1">
+                        class="p-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed self-end">
                         <span class="material-icons text-[20px]">arrow_upward</span>
                     </button>
                 </div>
-                <p class="text-center text-[10px] text-gray-400 mt-2">
+                <p class="text-center text-[11px] text-gray-400 mt-3">
                     LegalAdviser-AI can make mistakes. Verify important information.
                 </p>
             </div>
@@ -139,7 +112,6 @@
     const chatContainer = document.getElementById('chat-container');
     const sidebarToggle = document.getElementById('sidebar-toggle');
     const chatSidebar = document.getElementById('chat-sidebar');
-    const suggestionBtns = document.querySelectorAll('.suggestion-btn');
 
     let currentSessionId = null;
 
@@ -245,32 +217,9 @@
                     I'm your AI Legal Assistant for Indian Laws. Ask me about the IPC, CrPC, BNS, or RTI Act.
                 </p>
             </div>
-             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full max-w-2xl">
-                <button class="suggestion-btn text-left p-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors text-sm text-gray-600" onclick="useSuggestion('How do I file an RTI for road repairs?')">
-                    <span class="font-medium block text-gray-800 mb-1">RTI Application</span>
-                    How do I file an RTI for road repairs?
-                </button>
-                <button class="suggestion-btn text-left p-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors text-sm text-gray-600" onclick="useSuggestion('Bus conductor refused to give change.')">
-                    <span class="font-medium block text-gray-800 mb-1">Consumer Rights</span>
-                    Bus conductor refused to give change.
-                </button>
-                <button class="suggestion-btn text-left p-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors text-sm text-gray-600" onclick="useSuggestion('Report online financial fraud.')">
-                    <span class="font-medium block text-gray-800 mb-1">Cyber Crime</span>
-                    Report online financial fraud.
-                </button>
-                <button class="suggestion-btn text-left p-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors text-sm text-gray-600" onclick="useSuggestion('Documents needed for house registration.')">
-                    <span class="font-medium block text-gray-800 mb-1">Property Law</span>
-                    Documents needed for house registration.
-                </button>
-            </div>
         </div>`;
         renderHistory();
         userInput.focus();
-    }
-
-    function useSuggestion(text) {
-        userInput.value = text;
-        sendMessage();
     }
 
     // --- Chat Logic ---
@@ -392,14 +341,6 @@
     if (sidebarToggle) {
         sidebarToggle.addEventListener('click', toggleSidebar);
     }
-
-    // Suggestion buttons logic (delegated or direct)
-    document.querySelectorAll('.suggestion-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            // Extract text from the second line (description) or just use a data attribute if we had one
-            // For simplicity, I added onclick inline in the HTML above, but let's keep this safe
-        });
-    });
 
     // Initialize
     renderHistory();

@@ -4,4 +4,4 @@ python-dotenv
 pydantic
 jinja2
 google-adk
-google-genai
+google-generativeai

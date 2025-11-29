@@ -19,7 +19,7 @@ class ResearchAgent:
     def __init__(self):
         self.api_key = os.getenv("GOOGLE_API_KEY")
         if not self.api_key:
-            logger.warning("GOOGLE_API_KEY not found in environment variables.")
+            raise ValueError("GOOGLE_API_KEY not found. Please set it in your .env file")
         
         # Initialize Gemini Model
         self.model = Gemini(model="gemini-2.5-flash")
@@ -46,21 +46,26 @@ class ResearchAgent:
         - Right to Information Act, 2005 (RTI)
         
         When answering:
-        1. **Be Direct & Concise:** Answer the question immediately. Keep the response **under 200 words**.
+        1. **Be Direct & Concise:** Answer the question immediately. Keep the response **under 150 words**. Be brief and to-the-point.
         2. **Simple English:** Avoid complex legal jargon. If you must use a term, explain it simply.
-        3. **Practical Steps:** Give 2-3 clear, actionable steps.
+        3. **Practical Steps:** Give 2-3 clear, actionable steps in bullet points.
         4. **Cite Laws Naturally:** Mention relevant Sections/Acts briefly within the text.
-        5. **Devgan.in Priority:** For IPC/CrPC/BNS, prioritize information from 'devgan.in' if available.
+        5. **Include Case Examples:** When providing legal advice, include 2-3 relevant court judgments in the "relevant_judgments" array. Keep case descriptions VERY brief (1 line each in the summary).
+        6. **Devgan.in Priority:** For IPC/CrPC/BNS, prioritize information from 'devgan.in' if available.
+        
+        **CRITICAL: Be BRIEF! Users want quick, actionable advice, not essays.**
         
         **CRITICAL: OUTPUT FORMAT**
         You MUST return a valid JSON object. Do not return plain text.
         {
             "key_facts": ["fact 1", "fact 2"],
-            "summary": "Your concise, simple, and direct answer here. Use markdown (bold, lists) for readability.",
+            "summary": "Your BRIEF, actionable answer (under 150 words). Use bullet points. Mention 1-2 case examples by name inline.",
             "relevant_judgments": [
-                {"title": "Case Title", "url": "URL", "snippet": "Brief snippet", "source": "Source Name"}
+                {"title": "Case Title", "url": "URL", "snippet": "One-line relevance", "source": "Source Name"}
             ]
         }
+        
+        **IMPORTANT:** Keep the summary VERY brief. Include 2-3 cases in "relevant_judgments" array, not 4-5.
         """
         
         class LegalAdviserAgent(Agent):
@@ -77,7 +82,7 @@ class ResearchAgent:
         # ADK infers app_name from the directory ('agents'), so we match it to avoid warnings
         self.runner = InMemoryRunner(agent=self.agent, app_name="agents")
 
-    async def research(self, query: str) -> ResearchReport:
+    async def research(self, query: str, history: list[dict] = [], user_session_id: str = None) -> ResearchReport:
         logger.info(f"Starting research for: {query}")
         
         # Query Optimization for specific sources
@@ -89,20 +94,32 @@ class ResearchAgent:
              search_query = f"{query} (source: devgan.in OR indiankanoon.org)"
         
         try:
-            # Create session (using a fixed ID for now, or generate one)
-            # In a real app, we might want to reuse sessions per user.
-            session_id = "session_" + os.urandom(4).hex()
-            await self.runner.session_service.create_session(
-                app_name="agents", 
-                user_id="researcher", 
-                session_id=session_id
-            )
+            # Use the user's session ID for ADK session continuity
+            # This ensures conversation history is maintained across queries
+            adk_session_id = f"adk_{user_session_id}" if user_session_id else "session_" + os.urandom(4).hex()
             
+            # Always try to create the session - ADK will reuse if it already exists
+            try:
+                await self.runner.session_service.create_session(
+                    app_name="agents", 
+                    user_id="researcher", 
+                    session_id=adk_session_id
+                )
+                logger.info(f"Created new ADK session: {adk_session_id}")
+            except Exception as e:
+                # Session might already exist, which is fine - we'll reuse it
+                logger.info(f"Using existing ADK session: {adk_session_id}")
+            
+            # Format history for context
+            history_context = ""
+            if history:
+                history_context = "<chat_history>\n" + "\n".join([f"{msg['role'].upper()}: {msg['content']}" for msg in history[-5:]]) + "\n</chat_history>\n\n"
+
             # Run the agent
             event_generator = self.runner.run_async(
                 user_id="researcher",
-                session_id=session_id,
-                new_message=types.Content(role="user", parts=[types.Part(text=search_query)])
+                session_id=adk_session_id,
+                new_message=types.Content(role="user", parts=[types.Part(text=history_context + search_query)])
             )
             
             text_response = ""

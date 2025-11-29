@@ -10,9 +10,11 @@ logger = logging.getLogger(__name__)
 class SummarizerAgent:
     def __init__(self):
         self.api_key = os.getenv("GOOGLE_API_KEY")
-        if self.api_key:
-            genai.configure(api_key=self.api_key)
-            self.model = genai.GenerativeModel('gemini-2.5-flash')
+        if not self.api_key:
+            raise ValueError("GOOGLE_API_KEY not found. Please set it in your .env file")
+        
+        genai.configure(api_key=self.api_key)
+        self.model = genai.GenerativeModel('gemini-2.5-flash')
 
     @trace_span("SummarizerAgent", "summarize")
     def summarize(self, query: str, analysis: AnalysisResult, history: list[dict] = []) -> str:

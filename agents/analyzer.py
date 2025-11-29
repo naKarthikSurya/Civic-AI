@@ -11,9 +11,11 @@ logger = logging.getLogger(__name__)
 class AnalyzerAgent:
     def __init__(self):
         self.api_key = os.getenv("GOOGLE_API_KEY")
-        if self.api_key:
-            genai.configure(api_key=self.api_key)
-            self.model = genai.GenerativeModel('gemini-2.5-flash')
+        if not self.api_key:
+            raise ValueError("GOOGLE_API_KEY not found. Please set it in your .env file")
+        
+        genai.configure(api_key=self.api_key)
+        self.model = genai.GenerativeModel('gemini-2.5-flash')
 
     @trace_span("AnalyzerAgent", "analyze_query")
     def analyze_query(self, query: str, history: list[dict] = []) -> AnalysisResult:

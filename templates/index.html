@@ -1,88 +1,367 @@
 {% extends "base.html" %}
 
-{% block title %}LegalAdviser-AI - Legal Assistant{% endblock %}
+{% block title %}LegalAdviser-AI - AI-Powered Legal Assistance for Every Indian{% endblock %}
 
 {% block content %}
-<div class="bg-gradient-to-br from-blue-50 via-blue-100 to-green-100 min-h-screen">
-  <!-- Hero Section -->
-  <div class="container mx-auto px-6 py-24 sm:py-32 text-center">
-    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 leading-tight tracking-tight mb-6">
-      Your Personal <span class="text-primary">Civic Legal Advisor</span>
-    </h1>
-    <p class="max-w-2xl mx-auto text-lg text-slate-600 mb-10">
-      Navigate the complexities of Indian Law (IPC, CrPC, BNS, RTI) with AI. Get instant legal advice, find relevant
-      judgments, and understand your rights.
+<!-- Hero Section - Split Layout with Illustration -->
+<section class="relative bg-gradient-to-br from-purple-50 via-white to-cyan-50 overflow-hidden">
+  <div class="container mx-auto px-6 py-20 lg:py-28">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Left Content -->
+      <div class="space-y-8 animate-fade-in-up">
+        <!-- Badge -->
+        <div
+          class="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium">
+          <span class="material-icons text-sm">auto_awesome</span>
+          <span>AI-Powered Legal Intelligence</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+          Get <span class="bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text text-transparent">Instant Legal
+            Answers</span> to Your Questions
+        </h1>
+
+        <!-- Subheadline -->
+        <p class="text-xl text-gray-600 leading-relaxed">
+          From RTI applications to criminal law queries - navigate India's legal system with confidence using our AI
+          assistant trained on IPC, CrPC, BNS, and RTI Act.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="/chat"
+            class="group inline-flex items-center justify-center bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1">
+            <span>Start Free Chat</span>
+            <span class="material-icons ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </a>
+          <a href="/about"
+            class="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-gray-900 font-semibold py-4 px-8 rounded-xl shadow-md border-2 border-gray-200 hover:border-purple-300 transition-all">
+            <span class="material-icons mr-2">info</span>
+            <span>Learn More</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Illustration -->
+      <div class="relative animate-fade-in-up delay-200">
+        <div class="relative z-10">
+          <img src="/static/images/hero-illustration.png" alt="Legal AI Assistant"
+            class="w-full h-auto drop-shadow-2xl">
+        </div>
+        <!-- Floating Elements -->
+        <div class="absolute top-10 -left-4 bg-white p-4 rounded-xl shadow-xl animate-float">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <span class="material-icons text-white">check_circle</span>
+            </div>
+            <div>
+              <div class="font-semibold text-gray-900">Case Resolved</div>
+              <div class="text-sm text-gray-500">RTI Application</div>
+            </div>
+          </div>
+        </div>
+        <div class="absolute bottom-10 -right-4 bg-white p-4 rounded-xl shadow-xl animate-float delay-200">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-lg flex items-center justify-center">
+              <span class="material-icons text-white">gavel</span>
+            </div>
+            <div>
+              <div class="font-semibold text-gray-900">IPC Section 420</div>
+              <div class="text-sm text-gray-500">Explained</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Social Proof Section -->
+<section class="bg-white py-12 border-y border-gray-200">
+  <div class="container mx-auto px-6">
+    <p class="text-center text-gray-500 text-sm mb-8">Trusted by thousands across India</p>
+    <div class="flex flex-wrap justify-center items-center gap-12 opacity-60">
+      <div class="text-2xl font-bold text-gray-400">IndiaLegal</div>
+      <div class="text-2xl font-bold text-gray-400">LawConnect</div>
+      <div class="text-2xl font-bold text-gray-400">RightsFirst</div>
+      <div class="text-2xl font-bold text-gray-400">CitizenHelp</div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Tabs Section -->
+<section class="py-24 bg-gradient-to-b from-white to-gray-50">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+        Everything You Need for <span
+          class="bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text text-transparent">Legal Clarity</span>
+      </h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Powerful AI-driven features designed to make Indian law accessible to everyone
+      </p>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="flex flex-wrap justify-center gap-4 mb-12">
+      <button class="tab-btn active px-6 py-3 rounded-lg font-medium transition-all" data-tab="legal-analysis">
+        <span class="material-icons text-sm mr-2">gavel</span>
+        Legal Analysis
+      </button>
+      <button class="tab-btn px-6 py-3 rounded-lg font-medium transition-all" data-tab="case-search">
+        <span class="material-icons text-sm mr-2">search</span>
+        Case Law Search
+      </button>
+      <button class="tab-btn px-6 py-3 rounded-lg font-medium transition-all" data-tab="rti-help">
+        <span class="material-icons text-sm mr-2">article</span>
+        RTI Assistance
+      </button>
+      <button class="tab-btn px-6 py-3 rounded-lg font-medium transition-all" data-tab="legal-docs">
+        <span class="material-icons text-sm mr-2">description</span>
+        Document Help
+      </button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content active" id="legal-analysis">
+      <div class="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+        <div class="space-y-6">
+          <h3 class="text-3xl font-bold text-gray-900">Instant Legal Analysis</h3>
+          <p class="text-lg text-gray-600">
+            Get detailed breakdowns of relevant IPC sections, CrPC procedures, and BNS provisions that apply to your
+            situation.
+          </p>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <span class="material-icons text-purple-600 text-sm">check</span>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-900">Section-by-Section Breakdown</div>
+                <div class="text-gray-600">Understand exactly which laws apply and why</div>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <span class="material-icons text-purple-600 text-sm">check</span>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-900">Plain Language Explanations</div>
+                <div class="text-gray-600">No legal jargon - just clear, simple answers</div>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <span class="material-icons text-purple-600 text-sm">check</span>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-900">Real-Time Updates</div>
+                <div class="text-gray-600">Always current with latest legal amendments</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="relative">
+          <img src="/static/images/dashboard.png" alt="Legal Analysis Dashboard"
+            class="w-full h-auto rounded-2xl shadow-2xl">
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" id="case-search">
+      <div class="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+        <div class="order-2 lg:order-1 relative">
+          <div class="bg-white p-8 rounded-2xl shadow-xl">
+            <div class="space-y-4">
+              <div class="flex items-center gap-3 p-4 bg-purple-50 rounded-lg">
+                <span class="material-icons text-purple-600">assured_workload</span>
+                <div class="flex-1">
+                  <div class="font-semibold">Kesavananda Bharati vs State of Kerala</div>
+                  <div class="text-sm text-gray-500">Basic Structure Doctrine</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-4 bg-cyan-50 rounded-lg">
+                <span class="material-icons text-cyan-600">balance</span>
+                <div class="flex-1">
+                  <div class="font-semibold">Vishaka vs State of Rajasthan</div>
+                  <div class="text-sm text-gray-500">Sexual Harassment Guidelines</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-1 lg:order-2 space-y-6">
+          <h3 class="text-3xl font-bold text-gray-900">Find Relevant Precedents</h3>
+          <p class="text-lg text-gray-600">
+            Search through lakhs of Indian Supreme Court and High Court judgments to find cases similar to yours.
+          </p>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-cyan-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <span class="material-icons text-cyan-600 text-sm">check</span>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-900">Smart Search Algorithm</div>
+                <div class="text-gray-600">AI matches your query with relevant cases</div>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-cyan-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <span class="material-icons text-cyan-600 text-sm">check</span>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-900">Key Highlights</div>
+                <div class="text-gray-600">Get the important points without reading full judgments</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Similar structure for other tabs... -->
+    <div class="tab-content hidden" id="rti-help">
+      <div class="text-center py-12 max-w-2xl mx-auto">
+        <h3 class="text-3xl font-bold text-gray-900 mb-4">RTI Application Assistance</h3>
+        <p class="text-lg text-gray-600 mb-8">
+          Get step-by-step guidance on filing RTI applications, crafting effective queries, and following up on your
+          requests.
+        </p>
+        <a href="/chat"
+          class="inline-flex items-center justify-center bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold py-3 px-6 rounded-lg">
+          Start RTI Consultation
+        </a>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" id="legal-docs">
+      <div class="text-center py-12 max-w-2xl mx-auto">
+        <h3 class="text-3xl font-bold text-gray-900 mb-4">Legal Document Help</h3>
+        <p class="text-lg text-gray-600 mb-8">
+          Understand legal notices, contracts, and other documents. Get explanations of complex legal language in simple
+          terms.
+        </p>
+        <a href="/chat"
+          class="inline-flex items-center justify-center bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold py-3 px-6 rounded-lg">
+          Upload Document
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-24 bg-white">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+        What Our Users Say
+      </h2>
+      <p class="text-xl text-gray-600">
+        Helping Indians understand their legal rights
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <!-- Testimonial 1 -->
+      <div
+        class="bg-gradient-to-br from-purple-50 to-white p-8 rounded-2xl shadow-md hover:shadow-xl transition-shadow">
+        <div class="flex items-center gap-4 mb-4">
+          <div
+            class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+            A
+          </div>
+          <div>
+            <div class="font-semibold text-gray-900">Amit Kumar</div>
+            <div class="text-sm text-gray-500">Law Student</div>
+          </div>
+        </div>
+        <p class="text-gray-700 leading-relaxed">
+          "Perfect for quick reference during my studies. The IPC section explanations are clear and accurate."
+        </p>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="bg-gradient-to-br from-cyan-50 to-white p-8 rounded-2xl shadow-md hover:shadow-xl transition-shadow">
+        <div class="flex items-center gap-4 mb-4">
+          <div
+            class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-full flex items-center justify-center text-white font-bold">
+            P
+          </div>
+          <div>
+            <div class="font-semibold text-gray-900">Priya Sharma</div>
+            <div class="text-sm text-gray-500">RTI Activist</div>
+          </div>
+        </div>
+        <p class="text-gray-700 leading-relaxed">
+          "Helped me draft better RTI applications. The guidance on what information to request is invaluable."
+        </p>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="bg-gradient-to-br from-pink-50 to-white p-8 rounded-2xl shadow-md hover:shadow-xl transition-shadow">
+        <div class="flex items-center gap-4 mb-4">
+          <div
+            class="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold">
+            R
+          </div>
+          <div>
+            <div class="font-semibold text-gray-900">Rajesh Patel</div>
+            <div class="text-sm text-gray-500">Small Business Owner</div>
+          </div>
+        </div>
+        <p class="text-gray-700 leading-relaxed">
+          "Finally understand my legal rights as a business owner. Great for getting quick answers without expensive
+          lawyers."
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="py-24 bg-gradient-to-r from-purple-600 to-cyan-600">
+  <div class="container mx-auto px-6 text-center">
+    <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6">
+      Ready to Get Legal Clarity?
+    </h2>
+    <p class="text-xl text-purple-100 mb-10 max-w-2xl mx-auto">
+      Join thousands of Indians who are using AI to understand their rights and navigate the legal system
     </p>
-    <a class="inline-flex items-center justify-center bg-primary hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
-      href="/chat">
-      Get Legal Advice <span class="material-icons ml-2">arrow_forward</span>
+    <a href="/chat"
+      class="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-purple-600 font-bold py-4 px-10 rounded-xl shadow-2xl transition-all transform hover:-translate-y-1 text-lg group">
+      <span>Start Your First Query</span>
+      <span class="material-icons ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
     </a>
   </div>
+</section>
+{% endblock %}
 
-  <!-- Features Section -->
-  <div class="bg-white py-20">
-    <div class="container mx-auto px-6">
-      <h2 class="text-3xl font-bold text-center text-slate-900 mb-12">Why Choose LegalAdviser-AI?</h2>
-      <div class="grid md:grid-cols-3 gap-8">
-        <!-- Feature 1 -->
-        <div class="p-6 bg-slate-50 rounded-xl hover:shadow-md transition-shadow">
-          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-            <span class="material-icons text-primary text-2xl">gavel</span>
-          </div>
-          <h3 class="text-xl font-semibold text-slate-900 mb-2">Legal Analysis</h3>
-          <p class="text-slate-600">Understand which sections of IPC, CrPC, BNS, or RTI apply to your specific case.</p>
-        </div>
-        <!-- Feature 2 -->
-        <div class="p-6 bg-slate-50 rounded-xl hover:shadow-md transition-shadow">
-          <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
-            <span class="material-icons text-green-600 text-2xl">library_books</span>
-          </div>
-          <h3 class="text-xl font-semibold text-slate-900 mb-2">Case Law Search</h3>
-          <p class="text-slate-600">Find relevant judgments and precedents from Indian courts to support your legal
-            stance.</p>
-        </div>
-        <!-- Feature 3 -->
-        <div class="p-6 bg-slate-50 rounded-xl hover:shadow-md transition-shadow">
-          <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-            <span class="material-icons text-purple-600 text-2xl">lightbulb</span>
-          </div>
-          <h3 class="text-xl font-semibold text-slate-900 mb-2">Actionable Solutions</h3>
-          <p class="text-slate-600">Get step-by-step guidance on how to file complaints, RTIs, or proceed legally.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+{% block scripts %}
+<script>
+  // Tab switching functionality
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
 
-  <!-- How It Works Section -->
-  <div class="py-20 bg-slate-50">
-    <div class="container mx-auto px-6">
-      <h2 class="text-3xl font-bold text-center text-slate-900 mb-12">How It Works</h2>
-      <div class="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-12">
-        <div class="text-center max-w-xs">
-          <div
-            class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mx-auto mb-4 text-2xl font-bold text-primary">
-            1</div>
-          <h3 class="font-semibold text-lg mb-2">Describe Your Issue</h3>
-          <p class="text-slate-600">Tell us what information you need or what problem you're facing.</p>
-        </div>
-        <div class="hidden md:block w-16 h-1 bg-gray-300"></div>
-        <div class="text-center max-w-xs">
-          <div
-            class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mx-auto mb-4 text-2xl font-bold text-primary">
-            2</div>
-          <h3 class="font-semibold text-lg mb-2">AI Analysis</h3>
-          <p class="text-slate-600">Our agent searches laws and judgments to analyze your case.</p>
-        </div>
-        <div class="hidden md:block w-16 h-1 bg-gray-300"></div>
-        <div class="text-center max-w-xs">
-          <div
-            class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mx-auto mb-4 text-2xl font-bold text-primary">
-            3</div>
-          <h3 class="font-semibold text-lg mb-2">Get Advice</h3>
-          <p class="text-slate-600">Receive a structured legal opinion and recommended next steps.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.getAttribute('data-tab');
+
+      // Remove active from all
+      tabBtns.forEach(b => b.classList.remove('active', 'bg-gradient-to-r', 'from-purple-600', 'to-cyan-600', 'text-white', 'shadow-md'));
+      tabBtns.forEach(b => b.classList.add('bg-gray-100', 'text-gray-700'));
+      tabContents.forEach(c => c.classList.remove('active'));
+      tabContents.forEach(c => c.classList.add('hidden'));
+
+      // Add active to current
+      btn.classList.remove('bg-gray-100', 'text-gray-700');
+      btn.classList.add('active', 'bg-gradient-to-r', 'from-purple-600', 'to-cyan-600', 'text-white', 'shadow-md');
+      document.getElementById(tab).classList.remove('hidden');
+      document.getElementById(tab).classList.add('active');
+    });
+  });
+</script>
 {% endblock %}

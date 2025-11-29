@@ -12,7 +12,7 @@ class Orchestrator:
         self.researcher = ResearchAgent()
         self.summarizer = SummarizerAgent()
 
-    async def process_query(self, query: str, history: list[dict] = []) -> ChatResponse:
+    async def process_query(self, query: str, history: list[dict] = [], session_id: str = None) -> ChatResponse:
         logger.info(f"User Query: {query}")
         
         try:
@@ -25,9 +25,9 @@ class Orchestrator:
                 return await self._run_clarification_flow(query, analysis, history)
             elif analysis.intent == "legal_advice":
                 # Treat legal advice as a specialized research flow
-                return await self._run_research_flow(query, analysis, history)
+                return await self._run_research_flow(query, analysis, history, session_id)
             else: # intent == "info" or fallback
-                return await self._run_research_flow(query, analysis, history)
+                return await self._run_research_flow(query, analysis, history, session_id)
         except Exception as e:
             logger.error(f"Orchestrator Error: {e}", exc_info=True)
             raise e
@@ -38,11 +38,11 @@ class Orchestrator:
         reply = self.summarizer.summarize(query, analysis, history)
         return ChatResponse(reply=reply, analysis=analysis)
 
-    async def _run_research_flow(self, query: str, analysis: ChatResponse, history: list[dict]) -> ChatResponse:
+    async def _run_research_flow(self, query: str, analysis: ChatResponse, history: list[dict], session_id: str = None) -> ChatResponse:
         logger.info("Flow: Research/Legal")
         
-        # Use ResearchAgent (ADK)
-        report = await self.researcher.research(query)
+        # Use ResearchAgent (ADK) with session_id for conversation continuity
+        report = await self.researcher.research(query, history, user_session_id=session_id)
         
         # Update analysis with facts from report
         analysis.key_facts = report.key_facts

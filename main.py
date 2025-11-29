@@ -34,7 +34,7 @@ async def startup_event():
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
-    if not request.message:
+    if not request.message or not request.message.strip():
         raise HTTPException(status_code=400, detail="Message cannot be empty")
     if len(request.message) > 5000:
         raise HTTPException(status_code=400, detail="Message too long")
@@ -59,8 +59,8 @@ async def chat_endpoint(request: ChatRequest):
                 title = title[:37] + "..."
             session_manager.update_title(session_id, title)
         
-        # Process query
-        response = await orchestrator.process_query(request.message, history)
+        # Process query with session_id for conversation continuity
+        response = await orchestrator.process_query(request.message, history, session_id)
         
         # Update history
         session_manager.add_message(session_id, "user", request.message)
@@ -88,9 +88,6 @@ async def get_session_info(session_id: str):
         raise HTTPException(status_code=404, detail="Session not found")
     return {"session_id": session.session_id, "title": session.title}
 
-# Page Routes
-
-# Page Routes
 # Page Routes
 @app.get("/")
 async def read_root(request: Request):

@@ -1,97 +1,244 @@
 {% extends "base.html" %}
 
-{% block title %}About - LegalAdviser-AI{% endblock %}
+{% block title %}About Us - LegalAdviser-AI{% endblock %}
 
 {% block content %}
-<section class="relative py-24 sm:py-32 flex items-center bg-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-16">
-                <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight mb-6">
-                    About LegalAdviser-AI
-                </h1>
-                <p class="text-xl text-gray-600 leading-relaxed">
-                    Empowering Indian citizens with AI-driven legal insights to foster transparency and accountability.
-                </p>
-            </div>
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-purple-600 to-cyan-600 text-white py-24 overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+    </div>
 
-            <!-- Mission Section -->
-            <div class="grid md:grid-cols-2 gap-12 items-center mb-20">
-                <div>
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Mission</h2>
-                    <p class="text-gray-600 mb-4">
-                        Indian Law is vast and complex. From the Indian Penal Code (IPC) to the Bharatiya Nyaya Sanhita
-                        (BNS) and RTI, navigating legalities can be daunting. Our mission is to bridge this gap by
-                        making expert-level legal advice accessible to everyone.
+    <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl lg:text-6xl font-bold mb-6 animate-fade-in-up">
+                Empowering Indians with Legal Knowledge
+            </h1>
+            <p class="text-xl lg:text-2xl text-purple-100 leading-relaxed animate-fade-in-up delay-100">
+                We're on a mission to make Indian law accessible and understandable for every citizen through AI
+                technology.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Mission Section -->
+<section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900">
+                        Our Mission
+                    </h2>
+                    <p class="text-lg text-gray-700 leading-relaxed">
+                        Legal information in India is often locked behind complex jargon and expensive consultations. We
+                        believe that understanding your rights shouldn't require a law degree or deep pockets.
                     </p>
-                    <p class="text-gray-600">
-                        We believe that every citizen deserves to know their rights and how to exercise them effectively
-                        without needing expensive legal counsel for basic queries.
+                    <p class="text-lg text-gray-700 leading-relaxed">
+                        LegalAdviser-AI uses advanced artificial intelligence to make the Indian Penal Code (IPC), Code
+                        of Criminal Procedure (CrPC), Bharatiya Nyaya Sanhita (BNS), and RTI Act accessible to everyone
+                        in simple, clear language.
                     </p>
                 </div>
-                <div class="bg-blue-50 p-8 rounded-2xl">
-                    <h3 class="text-xl font-semibold text-primary mb-4">Why It Matters</h3>
-                    <ul class="space-y-3 text-gray-600">
-                        <li class="flex items-start">
-                            <span class="material-icons text-green-500 mr-2">check_circle</span>
-                            <span>Democratizes access to legal knowledge.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="material-icons text-green-500 mr-2">check_circle</span>
-                            <span>Empowers citizens to understand their rights.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="material-icons text-green-500 mr-2">check_circle</span>
-                            <span>Helps in filing accurate complaints and RTIs.</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
 
-            <!-- Technology Section -->
-            <div class="mb-20">
-                <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Powered by Advanced AI</h2>
-                <div class="bg-slate-50 rounded-2xl p-8 md:p-12">
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div class="flex flex-col items-center text-center">
-                            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                                <span class="material-icons text-primary text-3xl">psychology</span>
-                            </div>
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Intelligent Analysis</h3>
-                            <p class="text-gray-600">
-                                Our AI agent understands natural language queries and identifies the core legal issue,
-                                just like a human lawyer would.
-                            </p>
-                        </div>
-                        <div class="flex flex-col items-center text-center">
-                            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                                <span class="material-icons text-purple-600 text-3xl">search</span>
-                            </div>
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Legal Database Search</h3>
-                            <p class="text-gray-600">
-                                We actively search through thousands of judgments and legal texts (via Indian Kanoon) to
-                                find precedents that strengthen your case.
-                            </p>
+                <div class="relative">
+                    <div class="bg-gradient-to-br from-purple-100 to-cyan-100 rounded-3xl p-8 shadow-xl">
+                        <div class="space-y-4 text-center">
+                            <div class="text-2xl font-bold text-gray-900">Open Source Legal AI</div>
+                            <p class="text-gray-700">Built to empower every Indian citizen with accessible legal
+                                information</p>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
 
-            <!-- Disclaimer -->
-            <div class="bg-yellow-50 border border-yellow-200 p-6 rounded-lg flex items-start space-x-4">
-                <div class="flex-shrink-0">
-                    <span class="material-icons text-yellow-600 text-2xl">warning</span>
+<!-- What We Cover Section -->
+<section class="py-24 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                What We Cover
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Comprehensive coverage of Indian legal frameworks
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            <!-- IPC -->
+            <div class="bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition-shadow">
+                <div
+                    class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-purple-500/30">
+                    <span class="material-icons text-white text-3xl">gavel</span>
                 </div>
-                <div>
-                    <h2 class="font-semibold text-yellow-900">Legal Disclaimer</h2>
-                    <p class="text-yellow-800 mt-1 text-sm">
-                        LegalAdviser-AI is an informational tool designed to assist with legal research and drafting. It
-                        does not provide binding legal advice and is not a substitute for a qualified attorney. Always
-                        consult a legal professional for critical matters.
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Indian Penal Code</h3>
+                <p class="text-gray-600">
+                    Complete coverage of IPC sections, offenses, and punishments
+                </p>
+            </div>
+
+            <!-- CrPC -->
+            <div class="bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition-shadow">
+                <div
+                    class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-cyan-500/30">
+                    <span class="material-icons text-white text-3xl">balance</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">CrPC</h3>
+                <p class="text-gray-600">
+                    Criminal procedures, FIR filing, bail, and court processes
+                </p>
+            </div>
+
+            <!-- BNS -->
+            <div class="bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition-shadow">
+                <div
+                    class="w-16 h-16 bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-pink-500/30">
+                    <span class="material-icons text-white text-3xl">menu_book</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">BNS</h3>
+                <p class="text-gray-600">
+                    Bharatiya Nyaya Sanhita - India's new criminal code
+                </p>
+            </div>
+
+            <!-- RTI -->
+            <div class="bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition-shadow">
+                <div
+                    class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-orange-500/30">
+                    <span class="material-icons text-white text-3xl">article</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">RTI Act</h3>
+                <p class="text-gray-600">
+                    Right to Information applications and compliance guidance
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                How It Works
+            </h2>
+            <p class="text-xl text-gray-600">
+                Powered by advanced AI and comprehensive legal databases
+            </p>
+        </div>
+
+        <div class="max-w-4xl mx-auto space-y-12">
+            <!-- Step 1 -->
+            <div class="flex gap-8 items-start">
+                <div
+                    class="w-16 h-16 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-purple-600/30">
+                    <span class="text-2xl font-bold text-white">1</span>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Ask Your Question</h3>
+                    <p class="text-lg text-gray-600">
+                        Simply type your legal query in plain language. No need for legal terminology or formal
+                        language.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="flex gap-8 items-start">
+                <div
+                    class="w-16 h-16 bg-gradient-to-br from-cyan-600 to-cyan-700 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-cyan-600/30">
+                    <span class="text-2xl font-bold text-white">2</span>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">AI Analysis</h3>
+                    <p class="text-lg text-gray-600">
+                        Our AI processes your query against our comprehensive database of Indian laws, regulations, and
+                        case precedents.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="flex gap-8 items-start">
+                <div
+                    class="w-16 h-16 bg-gradient-to-br from-pink-600 to-pink-700 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-pink-600/30">
+                    <span class="text-2xl font-bold text-white">3</span>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Get Clear Answers</h3>
+                    <p class="text-lg text-gray-600">
+                        Receive detailed, easy-to-understand explanations with relevant sections, procedures, and next
+                        steps.
                     </p>
                 </div>
             </div>
         </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="py-24 bg-gradient-to-b from-gray-50 to-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                Our Values
+            </h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="text-center">
+                <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="material-icons text-purple-600 text-4xl">public</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Accessibility</h3>
+                <p class="text-gray-600">
+                    Legal knowledge should be free and accessible to every Indian citizen
+                </p>
+            </div>
+
+            <div class="text-center">
+                <div class="w-20 h-20 bg-cyan-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="material-icons text-cyan-600 text-4xl">verified</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Accuracy</h3>
+                <p class="text-gray-600">
+                    We maintain high standards of accuracy through continuous updates and verification
+                </p>
+            </div>
+
+            <div class="text-center">
+                <div class="w-20 h-20 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="material-icons text-pink-600 text-4xl">lightbulb</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Simplicity</h3>
+                <p class="text-gray-600">
+                    Complex legal concepts explained in clear, simple language anyone can understand
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-24 bg-gradient-to-r from-purple-600 to-cyan-600">
+    <div class="container mx-auto px-6 text-center">
+        <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6">
+            Start Using LegalAdviser-AI Today
+        </h2>
+        <p class="text-xl text-purple-100 mb-10 max-w-2xl mx-auto">
+            Free, accurate, and available 24/7 to help you understand Indian law
+        </p>
+        <a href="/chat"
+            class="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-purple-600 font-bold py-4 px-10 rounded-xl shadow-2xl transition-all transform hover:-translate-y-1 text-lg group">
+            <span>Ask Your First Question</span>
+            <span class="material-icons ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </a>
     </div>
 </section>
 {% endblock %}

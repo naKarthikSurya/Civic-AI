@@ -193,19 +193,11 @@ All variables are read from the `.env` file at startup.
 ## 🛠️ Development
 
 ```bash
-# Run tests
-pytest tests/
--
-# Code formatting
-black . && flake8 .
-
 # Add a new agent
 1. Create `agents/your_agent.py` extending the base class.
 2. Register it in `orchestrator.py`.
 3. Document it in `agents/README.md`.
 ```
-
-The project follows **PEP 8**, uses **Black** for formatting, and **Flake8** for linting.
 
 ---
 
@@ -222,20 +214,6 @@ docker run -p 8080:8080 --env-file .env legaladviser-ai
 ### Docker‑Compose
 ```bash
 docker-compose up --build
-```
-
-### Google Cloud Run (quick guide)
-```bash
-# Authenticate
-gcloud auth login
-# Build & push
-gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/legaladviser-ai
-# Deploy
-gcloud run deploy legaladviser-ai \
-  --image gcr.io/YOUR_PROJECT_ID/legaladviser-ai \
-  --platform managed \
-  --region us-central1 \
-  --set-env-vars GOOGLE_API_KEY=your_key
 ```
 
 ---
@@ -296,4 +274,3 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 
 ⭐ Star this repo if you find it useful!
 
-</div>

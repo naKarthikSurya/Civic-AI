@@ -1,4 +1,4 @@
-# 🏛️ LegalAdviser-AI (CivicAI)
+# 🏛️ LegalAdviser-AI
 
 <div align="center">
 
@@ -105,11 +105,6 @@ graph TB
     
     Orchestrator -->|Final Response| FastAPI
     FastAPI -->|JSON| User
-    
-    style Analyzer fill:#E1BEE7
-    style Researcher fill:#B2DFDB
-    style Summarizer fill:#FFE0B2
-    style SessionMgr fill:#C5CAE9
 ```
 
 ### Agent Workflow

@@ -68,6 +68,7 @@ Generate a response based on the intent, tailored for a non-lawyer audience.
 <output_format>
 Plain text response only. Use Markdown for formatting (bolding key terms, lists).
 </output_format>"""
+        
         try:
             response = self.model.generate_content(prompt)
             return response.text

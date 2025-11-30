@@ -67,9 +67,20 @@ Respond with valid JSON only:
     "reasoning": "..."
 }}
 </output_format>"""
+        
         try:
             response = self.model.generate_content(prompt, generation_config={"response_mime_type": "application/json"})
             data = json.loads(response.text)
+            
+            # Print what the analyzer understood
+            print("\nANALYZER AGENT - analyze_query()")
+            print(f"User Query: {query}")
+            print(f"Intent Detected: {data.get('intent', 'info')}")
+            print(f"Search Queries Generated:")
+            for sq in data.get("search_queries", []):
+                print(f"  - {sq}")
+            print(f"Reasoning: {data.get('reasoning', '')}")
+            
             return AnalysisResult(
                 intent=data.get("intent", "info"),
                 search_queries=data.get("search_queries", [query]),
@@ -121,6 +132,7 @@ Respond with ONLY valid JSON:
     "relevant_judgments_indices": [0, 2]
 }}
 </output_format>"""
+        
         try:
             response = self.model.generate_content(prompt, generation_config={"response_mime_type": "application/json"})
             data = json.loads(response.text)

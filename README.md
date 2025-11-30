@@ -1,4 +1,8 @@
-# 🏛️ LegalAdviser‑AI (CivicAI)
+# 🏛️ LegalAdviser-AI
+
+<div align="center">
+
+**Your AI-Powered Legal Companion for India**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
@@ -60,19 +64,23 @@ The system follows a **multi‑agent architecture** (Analyzer → Researcher →
 ```mermaid
 graph TB
     User[👤 User] -->|HTTP Request| FastAPI[FastAPI Server]
-    FastAPI --> SessionMgr[Session Manager]
-    FastAPI --> Orchestrator[Orchestrator]
-    Orchestrator --> Analyzer[Analyzer Agent]
-    Orchestrator --> Researcher[Researcher Agent]
-    Orchestrator --> Summarizer[Summarizer Agent]
-    Researcher --> GoogleSearch[Google Search API]
-    GoogleSearch --> Researcher
-    Orchestrator --> FastAPI
-    FastAPI -->|JSON Response| User
-    style Analyzer fill:#E1BEE7
-    style Researcher fill:#B2DFDB
-    style Summarizer fill:#FFE0B2
-    style SessionMgr fill:#C5CAE9
+    FastAPI -->|Route| SessionMgr[Session Manager]
+    SessionMgr -->|Persist| JSON[(sessions.json)]
+    FastAPI -->|Process| Orchestrator[Orchestrator]
+    
+    Orchestrator -->|1. Analyze| Analyzer[Analyzer Agent]
+    Analyzer -->|Intent: legal_advice/clarify/info| Orchestrator
+    
+    Orchestrator -->|2. Research| Researcher[Research Agent ADK]
+    Researcher -->|Query| GoogleSearch[Google Search API]
+    GoogleSearch -->|Results| Researcher
+    Researcher -->|Report| Orchestrator
+    
+    Orchestrator -->|3. Clarify| Summarizer[Summarizer Agent]
+    Summarizer -->|Response| Orchestrator
+    
+    Orchestrator -->|Final Response| FastAPI
+    FastAPI -->|JSON| User
 ```
 
 ---
@@ -282,4 +290,12 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 
 ---
 
-*Made with ❤️ for India*
+<div align="center">
+
+**Made with ❤️ for India**
+
+*Empowering citizens with legal knowledge, one query at a time.*
+
+⭐ Star this repo if you find it useful!
+
+</div>

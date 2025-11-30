@@ -1,7 +1,5 @@
 # 🏛️ LegalAdviser-AI
 
-<div align="center">
-
 **Your AI-Powered Legal Companion for India**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

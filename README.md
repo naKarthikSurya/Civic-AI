@@ -13,7 +13,7 @@
 
 ---
 
-## � Table of Contents
+## 📑 Table of Contents
 
 - [Overview](#-overview)
 - [Key Features](#-key-features)
@@ -59,7 +59,7 @@ The system follows a **multi‑agent architecture** (Analyzer → Researcher →
 
 ---
 
-## �️ Architecture
+## 🏗️ Architecture
 
 ```mermaid
 graph TB
@@ -85,7 +85,7 @@ graph TB
 
 ---
 
-## � Installation
+## 🚀 Installation
 
 ### Prerequisites
 - **Python 3.11+**
@@ -116,7 +116,7 @@ Open your browser at `http://127.0.0.1:8000/chat`.
 
 ---
 
-## � Usage
+## 💻 Usage
 
 ### Web UI
 - Navigate to `/chat`.
@@ -169,7 +169,7 @@ Each sub‑directory contains its own `README.md` with focused documentation (li
 
 ---
 
-## � API Documentation
+## 📖 API Documentation
 
 The OpenAPI spec is automatically generated. Key endpoints:
 - `POST /chat` – Send a user query.
@@ -192,12 +192,12 @@ All variables are read from the `.env` file at startup.
 
 ---
 
-## �️ Development
+## 🛠️ Development
 
 ```bash
 # Run tests
 pytest tests/
-
+-
 # Code formatting
 black . && flake8 .
 
@@ -211,7 +211,7 @@ The project follows **PEP 8**, uses **Black** for formatting, and **Flake8** f
 
 ---
 
-## � Deployment
+## ☁️ Deployment
 
 ### Docker
 ```bash
@@ -242,7 +242,7 @@ gcloud run deploy legaladviser-ai \
 
 ---
 
-## � Troubleshooting
+## 🔧 Troubleshooting
 
 | Issue | Common Fix |
 |---|---|
@@ -266,7 +266,7 @@ Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for the full guidelines. In s
 
 ---
 
-## � License
+## 📜 License
 
 This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
 

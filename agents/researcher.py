@@ -31,6 +31,13 @@ class ResearchAgent:
         
         **Target Audience:** General Public (Non-lawyers). Use simple, easy-to-understand English.
         
+        **CRITICAL: You MUST use the google_search tool to find current information, case law, and legal texts.**
+        **DO NOT rely on your training data alone. ALWAYS search for:**
+        - Recent court judgments and case law
+        - Current legal provisions and amendments  
+        - Specific sections of Acts mentioned in the query
+        - Relevant precedents from Indian courts
+        
         You have access to Google Search to find the latest information, judgments, and legal texts.
         
         Your capabilities cover the following Acts and Laws:
@@ -114,22 +121,31 @@ class ResearchAgent:
             history_context = ""
             if history:
                 history_context = "<chat_history>\n" + "\n".join([f"{msg['role'].upper()}: {msg['content']}" for msg in history[-5:]]) + "\n</chat_history>\n\n"
+            
+            # Prepare the full context
+            full_context = history_context + search_query
+            
+            print("\nRESEARCH AGENT")
+            print(f"User Query: {query}")
 
             # Run the agent
             event_generator = self.runner.run_async(
                 user_id="researcher",
                 session_id=adk_session_id,
-                new_message=types.Content(role="user", parts=[types.Part(text=history_context + search_query)])
+                new_message=types.Content(role="user", parts=[types.Part(text=full_context)])
             )
             
             text_response = ""
+            
             async for event in event_generator:
                 # Extract text from event content
                 if hasattr(event, 'content') and event.content:
-                    # event.content is types.Content
-                    for part in event.content.parts:
-                        if part.text:
-                            text_response += part.text
+                    if hasattr(event.content, 'parts'):
+                        for part in event.content.parts:
+                            if part.text:
+                                text_response += part.text
+
+
             
             # Robust JSON extraction
             json_match = re.search(r"```json\s*(.*?)\s*```", text_response, re.DOTALL)
@@ -157,6 +173,19 @@ class ResearchAgent:
             
             # Map to ResearchReport
             relevant_judgments_data = data.get("relevant_judgments", [])
+            
+            # Print search results
+            if relevant_judgments_data:
+                print(f"\nSearch Results Found: {len(relevant_judgments_data)} judgments/sources")
+                for i, judgment in enumerate(relevant_judgments_data, 1):
+                    print(f"\n[Result #{i}]")
+                    print(f"  Title: {judgment.get('title', 'Unknown')}")
+                    print(f"  URL: {judgment.get('url', 'N/A')}")
+                    print(f"  Snippet: {judgment.get('snippet', 'N/A')}")
+                    print(f"  Source: {judgment.get('source', 'Unknown')}")
+            else:
+                print("\nNo search results found in response")
+            
             relevant_judgments = [
                 SearchResult(
                     title=j.get("title", "Unknown"),

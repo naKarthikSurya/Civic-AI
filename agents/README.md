@@ -1,42 +1,29 @@
-# Agents Module
+# 🤖 Agents Documentation
 
-This directory contains the AI agents that power LegalAdviser-AI's intelligent legal assistance.
+[![Agents](https://img.shields.io/badge/Agents-3%20Modules-blue)](../README.md)
 
-## Overview
-
-The multi-agent architecture divides responsibilities into specialized agents, each handling a specific aspect of query processing:
-
-```
-User Query
-    ↓
-Analyzer Agent (Intent Detection)
-    ↓
-Orchestrator (Routing)
-    ↓
-├─→ Research Agent (Legal Research)
-│   
-└─→ Summarizer Agent (Clarification)
-```
+This directory contains the three core agents that power **LegalAdviser‑AI** (CivicAI). Each agent has a single responsibility and communicates through the orchestrator.
 
 ---
 
-## Agents
+## 📂 Structure
 
-### 1. Analyzer Agent (`analyzer.py`)
+- `analyzer.py` – Detects user intent and generates optimized search queries.
+- `researcher.py` – Performs legal research via Google ADK and returns a structured report.
+- `summarizer.py` – Turns the research report into a concise, actionable response.
 
-**Purpose**: Analyzes user queries to determine intent and generate optimized search queries.
+---
 
-**Key Responsibilities**:
-- Classifies intent as `legal_advice`, `clarify`, or `info`
-- Generates keyword-optimized search queries
-- Prioritizes authoritative sources (indiankanoon.org, devgan.in)
-- Extracts key facts from search results
+## 🧠 Analyzer Agent (`analyzer.py`)
 
-**Technology**: Google Gemini 2.5 Flash (direct API)
+**Purpose**: Understand the user's query.
 
-**Methods**:
-- `analyze_query(query, history)` - Determines user intent
-- `analyze_results(analysis, search_context, search_results)` - Extracts facts from search
+**Key Functions**:
+- `analyze_query(query: str, history: list) -> AnalysisResult`
+  - Classifies intent (`legal_advice`, `clarify`, `info`).
+  - Generates a list of keyword‑rich search queries.
+- `analyze_results(analysis, search_context, search_results) -> FactExtraction`
+  - Extracts the most relevant facts from raw search results.
 
 **Configuration**:
 ```python
@@ -45,69 +32,40 @@ model = genai.GenerativeModel('gemini-2.5-flash')
 
 ---
 
-### 2. Research Agent (`researcher.py`)
+## 🔍 Researcher Agent (`researcher.py`)
 
-**Purpose**: Conducts web research using Google Search to find relevant legal information.
+**Purpose**: Retrieve authoritative legal information.
 
-**Key Responsibilities**:
-- Executes web searches via Google ADK
-- Finds statutes, sections, and case law
-- Cites relevant court judgments (2-3 per query)
-- Maintains conversation context across queries
+**Key Functions**:
+- `research(query: str, history: list, user_session_id: str) -> ResearchReport`
+  - Uses the Google ADK `google_search` tool.
+  - Targets Indian legal sources (`indiankanoon.org`, `devgan.in`).
+  - Returns a summary plus 2‑3 cited judgments.
 
-**Technology**: Google ADK (Agent Development Kit) + Google Search Tool
-
-**Methods**:
-- `research(query, history, user_session_id)` - Main research function
-  - **Parameters**:
-    - `query`: User's legal question
-    - `history`: Previous conversation messages
-    - `user_session_id`: Session ID for context continuity
-  - **Returns**: `ResearchReport` with summary and judgments
-
-**Session Management**:
-- Creates ADK session as `adk_{user_session_id}`
-- Reuses sessions to maintain conversation context
-- Prevents "session lost" errors on follow-up queries
-
-**Configuration**:
-- **Model**: Gemini 2.5 Flash
-- **Word Limit**: 150 words (configurable on line 49)
-- **Case Examples**: 2-3 judgments (configurable on line 53)
-- **Search Priority**: devgan.in for IPC/CrPC/BNS
-
-**Prompt Engineering**:
-The system prompt emphasizes:
-- Brevity (under 150 words)
-- Simple English (no jargon)
-- Actionable steps (bullet points)
-- Case law inclusion (2-3 examples)
-- Inline citations
+**Configurable Parameters** (see the file for exact line numbers):
+- **Word limit** – default 150 words.
+- **Case examples** – default 2‑3 per query.
+- **Search priority** – `devgan.in` for IPC/CrPC/BNS.
 
 ---
 
-### 3. Summarizer Agent (`summarizer.py`)
+## ✍️ Summarizer Agent (`summarizer.py`)
 
-**Purpose**: Synthesizes information for clarification queries.
+**Purpose**: Produce the final user‑facing answer.
 
-**Key Responsibilities**:
-- Asks clarifying questions when query is vague
-- Provides general legal information
-- Explains concepts in simple language
+**Key Functions**:
+- `summarize(query: str, analysis: AnalysisResult, history: list) -> str`
+  - Generates a clear, step‑by‑step response.
+  - Adds case‑law citations and actionable advice.
 
-**Technology**: Google Gemini 2.5 Flash (direct API)
-
-**Methods**:
-- `summarize(query, analysis, history)` - Generates user-friendly response
-
-**Use Cases**:
-- When user query is too vague ("Tell me about law")
-- General information requests
-- Follow-up clarifications
+**Use‑Cases**:
+- Vague queries (e.g., "Tell me about law").
+- Follow‑up clarifications.
+- General legal information.
 
 ---
 
-## Data Flow
+## 🔄 Data Flow Diagram
 
 ```mermaid
 sequenceDiagram
@@ -116,163 +74,42 @@ sequenceDiagram
     participant Analyzer
     participant Researcher
     participant Summarizer
-    
-    User->>Orchestrator: "Police refused FIR"
+    User->>Orchestrator: Query
     Orchestrator->>Analyzer: analyze_query()
-    Analyzer-->>Orchestrator: intent="legal_advice"
-    
-    Orchestrator->>Researcher: research(query, session_id)
-    Researcher->>GoogleSearch: site:indiankanoon.org FIR refused
-    GoogleSearch-->>Researcher: Search results
-    Researcher-->>Orchestrator: ResearchReport + judgments
-    
-    Orchestrator->>User: Brief answer + case law
+    Analyzer-->>Orchestrator: intent & queries
+    Orchestrator->>Researcher: research()
+    Researcher->>GoogleSearch: search()
+    GoogleSearch-->>Researcher: results
+    Researcher-->>Orchestrator: ResearchReport
+    Orchestrator->>Summarizer: summarize()
+    Summarizer-->>Orchestrator: final answer
+    Orchestrator-->>User: response
 ```
 
 ---
 
-## Adding a New Agent
+## 📦 Adding a New Agent
 
-1. **Create agent file**: `agents/your_agent.py`
-
-2. **Define agent class**:
-```python
-import google.generativeai as genai
-import os
-
-class YourAgent:
-    def __init__(self):
-        self.api_key = os.getenv("GOOGLE_API_KEY")
-        if not self.api_key:
-            raise ValueError("API key required")
-        
-        genai.configure(api_key=self.api_key)
-        self.model = genai.GenerativeModel('gemini-2.5-flash')
-    
-    def process(self, query: str) -> str:
-        prompt = f"Your custom prompt: {query}"
-        response = self.model.generate_content(prompt)
-        return response.text
-```
-
-3. **Register in orchestrator** (`orchestrator.py`):
-```python
-from agents.your_agent import YourAgent
-
-class Orchestrator:
-    def __init__(self):
-        self.your_agent = YourAgent()
-```
-
-4. **Update routing logic**:
-```python
-if analysis.intent == "your_custom_intent":
-    return await self._run_your_flow(query, analysis, history)
-```
-
-5. **Document** in this README
+1. Create `agents/your_agent.py` extending the base pattern.
+2. Implement a clear `process` method.
+3. Register the agent in `orchestrator.py`.
+4. Update routing logic based on new intent.
+5. Document the agent here.
 
 ---
 
-## Best Practices
+## 🧪 Testing
 
-### Prompt Engineering
-- Keep prompts focused and specific
-- Use structured output (JSON) when possible
-- Include examples in system prompts
-- Limit response length to avoid timeouts
-
-### Error Handling
-- Always validate API keys in `__init__`
-- Catch and log exceptions
-- Provide fallback responses
-- Don't expose internal errors to users
-
-### Performance
-- Cache frequently requested information
-- Batch API calls when possible
-- Use streaming for long responses
-- Monitor token usage
-
----
-
-## Troubleshooting
-
-**Issue**: Agent responses are too verbose
-- **Fix**: Reduce word limit in system prompt (line 49 in `researcher.py`)
-
-**Issue**: Not enough case law examples
-- **Fix**: Increase count in prompt (line 53 in `researcher.py`)
-
-**Issue**: Search results irrelevant
-- **Fix**: Improve search query generation in `analyzer.py`
-  - Add more specific keywords
-  - Use Boolean operators (AND, OR, site:)
-
-**Issue**: Sessions not persisting
--**Fix**: Ensure `user_session_id` is passed through entire pipeline
-  - Check `main.py` → `orchestrator.py` → `researcher.py`
-
----
-
-## Configuration
-
-### Environment Variables
-- `GOOGLE_API_KEY`: Required for all agents
-
-### Model Selection
-To change the AI model, update in each agent:
-```python
-self.model = genai.GenerativeModel('gemini-2.0-flash-exp')  # Or any Gemini model
-```
-
-### Tracing
-Agents use the `@trace_span` decorator for logging:
-```python
-from utils.tracing import trace_span
-
-@trace_span("AgentName", "method_name")
-def your_method(self, ...):
-    # Implementation
-```
-
-Check logs for timing and error information.
-
----
-
-## Dependencies
-
-- `google-generativeai` - Direct Gemini API access
-- `google-adk` - Agent Development Kit (for  Researcher)
-- `pydantic` - Data validation for DTOs
-- `python-dotenv` - Environment variable management
-
----
-
-## Testing
-
-Example test for Analyzer:
-
-```python
-import pytest
-from agents.analyzer import AnalyzerAgent
-
-def test_analyzer_legal_advice_intent():
-    agent = AnalyzerAgent()
-    result = agent.analyze_query("Police refused FIR", history=[])
-    assert result.intent == "legal_advice"
-    assert len(result.search_queries) > 0
-```
-
-Run tests:
 ```bash
 pytest tests/test_agents.py
 ```
 
+Typical tests cover intent detection, research output shape, and summarization quality.
+
 ---
 
-## Learn More
+## 📚 Further Reading
 
+- [Main Project README](../README.md)
 - [Google ADK Documentation](https://github.com/google/project-idx-ai-agents)
 - [Gemini API Guide](https://ai.google.dev/docs)
-- [Main Project README](../README.md)
